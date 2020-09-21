@@ -359,4 +359,5 @@ median(heights,na.rm = TRUE)
 length(heights[heights>67])
 
 # [Hint: R has a builtin function called length() that tells you 
+length(heights[heights>67])
 # how many values are in a vector
