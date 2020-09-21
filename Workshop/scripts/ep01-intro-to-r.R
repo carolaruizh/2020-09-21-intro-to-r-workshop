@@ -229,7 +229,7 @@ lengths
 length_species <- c(4.5, "ecoli")
 length_species
 
-# This automatic conversion is called 'coercion' or 'casting' ..
+# This automatic conversion is called 'coercion' or 'casting'. It transforms it into a string of characters. 
 
 # and there are other types as well ...
 sqrt_of_minus_one <- 1i
@@ -254,17 +254,23 @@ class(decimal_number)
 #
 # eg:
 #
-#   thing <- c("some characters", 3.141, 100, TRUE)
-#   thing
-#   class(thing)
+thing <- c("some characters", 3.141, 100, TRUE)
+thing
+class(thing)
 #
 # What will happen in each of these examples?
 #
-#   num_char <- c(1, 2, 3, "a")
-#   num_logical <- c(1, 2, 3, TRUE)
-#   char_logical <- c("a", "b", "c", TRUE)
-#   tricky <- c(1, 2, 3, "4")
-#
+num_char <- c(1, 2, 3, "a")
+num_logical <- c(1, 2, 3, TRUE)
+char_logical <- c("a", "b", "c", TRUE)
+tricky <- c(1, 2, 3, "4")
+
+class(num_char)
+class(num_logical)
+class(char_logical)
+class(tricky)
+
+
 # [Hint: use class() to check the data type of your objects]
 #
 # Can you explain why you think it happens?
@@ -312,21 +318,24 @@ animals[animals %in% c("rat", "cat", "dog", "duck", "goat")]
 #
 # Can you explain  why 
 #
-#  "four" > "five" 
-#
+ "four" > "five" 
+
 # returns TRUE?
 #
-# Answer:
+# Answer: Because it compares them alphabetically when they are characters 
 
 
 # Topic: Missing data (NA - Not Available)
 
 heights <- c(2, 4, 4, NA, 6)
+# IF there are Missing Values (NA) then it wont calculate the mean, max, etc. 
 mean(heights)
 max(heights)
+# So you have to specify not to consider the missing values and take the stats from the available data
 mean(heights, na.rm = TRUE)
 max(heights, na.rm = TRUE)
 
+is.na(heights)
 heights[!is.na(heights)]
 na.omit(heights)
 heights[complete.cases(heights)]
@@ -338,15 +347,16 @@ heights[complete.cases(heights)]
 # Using this vector of heights in inches, create a new vector 
 # with the NAs removed.
 # 
-#   heights <- c(63, 69, 60, 65, NA, 68, 61, 70, 61, 59, 64, 69, 63, 63, NA, 72, 65, 64, 70, 63, 65)
+heights <- c(63, 69, 60, 65, NA, 68, 61, 70, 61, 59, 64, 69, 63, 63, NA, 72, 65, 64, 70, 63, 65)
 #
 # Solution
 
 # Use the function median() to calculate the median of the heights vector.
-#
+median(heights,na.rm = TRUE)
 # Solution
 
 # Use R to figure out how many people in the set are taller than 67 inches.
-#
+length(heights[heights>67])
+
 # [Hint: R has a builtin function called length() that tells you 
 # how many values are in a vector
