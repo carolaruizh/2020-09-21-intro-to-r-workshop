@@ -23,13 +23,13 @@
 #
 
 # What does: 11 + 1 / 6  evaluate to ?
-
-# Solution:
+(11+1)/6
+# Solution:2
 
 
 # Calculate 10 plus 2 all divided by 3 and then squared
-
-# Solution:
+((10+2)/3)^2
+# Solution: 16
 
 
 
@@ -48,7 +48,8 @@ a + b               # we can add them together just like numbers
 # --------
 #
 # What happens if we change a and then re-add a and b? [Hint: Try it now]
-#
+a=8
+c= a+b
 # Does it work if you just change a in the script and then add a and b? [Hint: Try it]
 #
 # Did you still get the same answer after you changed a? 
@@ -56,16 +57,16 @@ a + b               # we can add them together just like numbers
 #
 # We can also assign the result of a + b to a new variable, c. 
 # How would you do this?
-#
-# Solution:
+c= a+b
+# Solution:13
 
-
+c
 
 # Logical operators
 #
 # == != < > >= <= !
 1 < 124
-
+1 > 124
 #
 # Sensible object names are sensible ...
 #
@@ -83,25 +84,33 @@ ekljre2jklwef023ijlefj93jkl23rj90f32k <- 1
 # 
 #
 # Assign the name of this workshop to a object with a good name.
-#
+Workshop_name ="Introduction to R"
 # Solution: [Hint:       <- "Introduction to R"]
 
 # Assign the name of video conferencing tool we are using to an object
-#
+Videocall_tool = "Zoom"
 # Solution: [Hint:      <- "Zoom"]
 
 
 # Which of these are valid object names: [Hint: Try them out]
 #
-#  min_height
-#  max.height
-#  _age
-#  .mass
-#  MaxLength
-#  min-length
-#  2widths
-#  celsius2kelvin
-
+#  min_height - 
+min_height = 4
+#  max.height - 
+max.height = 5
+#  _age - Not. You can´t start with a special character
+ _age = g
+#  .mass - Not. You can´t start with a special character
+.mass = 10
+#  MaxLength - Yes, but better not start with a capital letter. 
+MaxLength = 6
+#  min-length - Not because it is trying to do min minus length because you are 
+# using a dash that represents minus. 
+min-length = 9
+#  2widths - Not, you can´t start with a number
+2widths = 3
+#  celsius2kelvin - YEs 
+celsius2kelvin = 6
 #
 # Topic: Displaying results
 #
@@ -125,12 +134,19 @@ weight_kg
 # 
 # What are the values after each statement in the following?
 # 
-# mass <- 47.5            # mass is: 
-# age  <- 122             # age is:
-# mass <- mass * 2.0      # mass is:
-# age  <- age - 20        # age is:
+# mass <- 47.5            # mass is: 47.5
+# age  <- 122             # age is: 122
+# mass <- mass * 2.0      # mass is: 95
+# age  <- age - 20        # age is: 102
 # mass_index <- mass/age  # mass_index is: 
-#
+mass <- 47.5            # mass is: 47.5
+age  <- 122             # age is: 122
+mass <- mass * 2.0      # mass is: 95
+age  <- age - 20        # age is:82
+mass_index <- mass/age  # mass_index is: 0.93
+
+
+
 # How do we do we know if our answers are correct ? 
 # [Hint: <highlight> [ALT][ENTER]
 
@@ -150,23 +166,23 @@ weight_kg
 #
 # Add explanatory comments to the following lines of code
 
-ft <- 3
-in <- ft * 12
-cms <- in * 2.54
-m = cms / 100
+ft <- 3                 #Length in feet
+in <- ft * 12           #Conversion from feet to inches
+cms <- in * 2.54        #Conversion from inches to centimetres
+m = cms / 100           #Conversion from centrimetres to metres. 
 
 #
 # Topic: Functions and Arguments
-#
-sqrt(2)
-sqrt(a)
-abs(-23.3)
-round(3.14159)
-pi
+a = 16
+sqrt(2)          #Square root of 2
+sqrt(a)          #Square root of a
+abs(-23.3)       #Absolute value of -23.3
+round(3.14159)   #Rounding 
+pi               #Value of pi 
 
 # Getting help about particular functions 
-?round
-args(round)
+?round         #Gives you help about the round function
+args(round)    #Tells you what the arguments of a function are
 
 round(3.14159, digits = 2)
 round(digits = 2, x = 3.14159)
@@ -175,8 +191,8 @@ round(digits = 2, x = 3.14159)
 # Exercise
 #
 # what does the function called log10() do ?  Can you test it ?
-#
-# Answer:
+log10(100)
+# Answer:Logarithm on base 10 of a 100 is 2. 
 
 
 
