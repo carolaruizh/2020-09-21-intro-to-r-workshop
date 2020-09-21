@@ -6,6 +6,7 @@
 # Load the GGPLOT2 library
 library(ggplot2)
 
+
 # The dataset 'diamonds' in included with the ggplot library
 View(diamonds)
 
