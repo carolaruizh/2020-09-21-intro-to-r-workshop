@@ -19,21 +19,23 @@ download.file(url = "https://ndownloader.figshare.com/files/2292169",
 surveys <- read.csv("data_raw/portal_data_joined.csv")
 
 # and take a look at it
-
+surveys
 
 
 # BTW, we assumed our data was comma separated, however this might not
-# always be the case. So we may been to tell read.csv more about our file.
+# always be the case. So we may need to tell read.csv more about our file.
 
 
 
 # So what kind of an R object is "surveys" ?
-
+class(surveys)
 
 
 # ok - so what are dataframes ?
-
-
+#To know the structure 
+str(surveys)
+#To know the dimensions
+dim(surveys)
 
 # --------
 # Exercise
@@ -41,36 +43,37 @@ surveys <- read.csv("data_raw/portal_data_joined.csv")
 #
 # What is the class of the object surveys?
 #
-# Answer:
+# Answer:Data frame
 
 
 # How many rows and how many columns are in this survey ?
 #
-# Answer:
+# Answer:34786 rows and 13 columns 
 
 # What's the average weight of survey animals
+mean(surveys$weight, na.rm = TRUE)
 #
+# Answer:42.67243
+# Summary of the variables in the data frame 
+summary(surveys)
+# Are there more Birds than Rodents ? Summary allows you to see min, max, mean, median if the data is numeric and n of observations when it is not. 
+summary(surveys)
 #
-# Answer:
-
-# Are there more Birds than Rodents ?
-#
-#
-# Answer:
+# Answer:No
 
 
 # 
 # Topic: Sub-setting
 #
 
-# first element in the first column of the data frame (as a vector)
-
+# first element in the first column of the data frame (as a vector) 
+surveys[1,1]      #Surveys[row,column]
 
 # first element in the 6th column (as a vector)
-
+surveys[1,6]
 
 # first column of the data frame (as a vector)
-
+surveys[,1]      #If you want all observation on one column you leave the first parameter empty
 
 # first column of the data frame (as a data frame)
 
