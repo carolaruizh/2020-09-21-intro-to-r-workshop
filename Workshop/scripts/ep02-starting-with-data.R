@@ -75,21 +75,21 @@ surveys[1,6]
 # first column of the data frame (as a vector)
 surveys[,1]      #If you want all observation on one column you leave the first parameter empty
 
-# first column of the data frame (as a data frame)
-
+# first column of the data frame (as a data frame) - This gives back a single column dataset
+surveys[1,]
 
 # first row (as a data frame)
-
+surveys[1,]
 
 # first three elements in the 7th column (as a vector)
-
+surveys[1:3,7]
 
 # the 3rd row of the data frame (as a data.frame)
-
+surveys[3,]
 
 # equivalent to head(metadata)
-
-
+head(surveys)
+surveys[1:6,]
 # looking at the 1:6 more closely
 
 
@@ -105,16 +105,16 @@ surveys[,1]      #If you want all observation on one column you leave the first 
 # i.e., print just last 6 rows of the surveys dataframe
 #
 # Solution:
+surveys [34781:34786,]
+nrow(surveys)
+surveys [(nrow(surveys)-5):nrow(surveys),]
+# We can omit (leave out) columns using '-' - 
 
-
-
-# We can omit (leave out) columns using '-'
-
-
-
+surveys[-1]    #Gives me everything except column 1
+surveys[c(-1,-2,-3)]   #Gives me everything except columns 1m 2 and 3 
 # column "names" can be used in place of the column numbers
 
-
+surveys["month"]
 
 #
 # Topic: Factors (for categorical data)
@@ -131,31 +131,39 @@ surveys[,1]      #If you want all observation on one column you leave the first 
 
 
 # so does our survey data have any factors
-
+str(surveys)
 
 #
 # Topic:  Dealing with Dates
 #
 
 # R has a whole library for dealing with dates ...
+library(lubridate)
 
+my_date= ymd("2015-01-01")
+class(my_date)
 
-
-# R can concatenated things together using paste()
-
+# R can concatenate things together using paste(). First paste the information from the three different columns (paste), 
+#then assign them as a date (ymd) and then assign it to a new column named date (survey$date)
 
 # 'sep' indicates the character to use to separate each component
-
 
 # paste() also works for entire columns
 
 
 # let's save the dates in a new column of our dataframe surveys$date 
-
+surveys$date=ymd(paste(surveys$year, surveys$month, surveys$day, sep= "-"))
 
 # and ask summary() to summarise 
-
+summary(surveys)
 
 # but what about the "Warning: 129 failed to parse"
+#Some data cannot be converted to dates 
 
-
+is.na(surveys$date)
+missing_date = surveys[ is.na(surveys$date), "date"]
+missing_date
+missing_date = surveys[ is.na(surveys$date), c("date","year","month","day")]                    
+missing_date
+#Looking at the data in missing_date, we know that the dates could not be converted because they corresponded to dates 
+#that do not exist, the 31st day of months that only have 30. 
