@@ -131,7 +131,25 @@ surveys_challenge2<-surveys %>%
 #---------------------
 # Split-apply-combine
 #---------------------
+#Group cases by sex and then add then show the mean weight by group. Remember to remove NA
+surveys %>% 
+  group_by(sex) %>% 
+  summarise(mean_weight= mean(weight, na.rm = TRUE))
 
+surveys %>% 
+  filter(!is.na(weight), !is.na(sex)) %>% 
+  group_by(sex, species_id) %>% 
+  summarise(mean_weight= mean(weight))
+
+surveys %>% 
+  filter(!is.na(weight), !is.na(sex)) %>% 
+  group_by(sex, species_id) %>% 
+  summarise(mean_weight= mean(weight),
+            min_weight=min(weight)) %>% 
+  arrange(desc(min_weight))
+
+surveys %>% 
+  count(sex)
 
 
 
@@ -143,14 +161,32 @@ surveys_challenge2<-surveys %>%
 
 # 1. How many animals were caught in each ```plot_type``` surveyed?
 
+surveys %>% 
+  group_by(plot_type) %>% 
+  summarise(n())
+  
+
 # 2. Use ```group_by()``` and ```summarize()``` to find the mean, min, and max hindfoot length 
 #    for each species (using ```species_id```). Also add the number of observations 
 #    (hint: see ```?n```).
 
+surveys %>% 
+  filter(!is.na(hindfoot_length)) %>% 
+         group_by(species_id) %>% 
+  summarise(mean_hindfootlength=mean(hindfoot_length),
+            min_hindfootlength=min(hindfoot_length),
+            max_hindfootlength=max(hindfoot_length),
+            n())
+
 # 3. What was the heaviest animal measured in each year? 
 #    Return the columns ```year```, ```genus```, ```species_id```, and ```weight```.
 
-
+heaviest_year<-surveys %>% 
+  group_by(year) %>% 
+  select(year, genus, species_id, weight) %>% 
+ mutate(max_weight= max(weight, na.rm = TRUE)) %>% 
+ungroup()
+heaviest_year  
 
 
 
@@ -158,9 +194,22 @@ surveys_challenge2<-surveys %>%
 # Reshaping
 #-----------
 
+surveys_gw<-surveys %>% 
+  filter(!is.na(weight)) %>% 
+  group_by(plot_id, genus) %>% 
+  summarise(mean_weight = mean(weight))
 
+surveys_gw
+str(surveys_gw)
 
+surveys_wider <- surveys_gw %>% 
+ spread(key=genus, value = mean_weight)
 
+surveys_gather<- surveys_wider %>% 
+  gather(key=genus, value= mean_weight, -plot_id)
+
+surveys_gather2<- surveys_wider %>% 
+  gather(key=genus, value= mean_weight, Baiomys:Spermophilus)
 
 
 
