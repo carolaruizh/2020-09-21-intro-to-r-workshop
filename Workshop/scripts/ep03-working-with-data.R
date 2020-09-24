@@ -31,28 +31,52 @@ download.file(url = "https://ndownloader.figshare.com/files/2292169",
 #------------------
 # Lets get started!
 #------------------
+install.packages("tidyverse")
+library(tidyverse)
 
+#Load the dataset
+surveys <-read_csv("data_raw/portal_data_joined.csv")
 
-
-
-
+#Check structure 
+str(surveys)
 
 #-----------------------------------
 # Selecting columns & filtering rows
 #-----------------------------------
+#selecting some columns in a dataset
+select(surveys, plot_id, species_id, weight)   #Selects only plot_id, species_id and weight
 
+#select all columns except some
+select(surveys,-record_id,-species_id)         #selects all columns except record_id and species_id
 
+#Filter for a particular year 
+filter(surveys, year==1995)                    #selects all columns, but only the cases that comply with the condition given
 
+#Save the filtered document separately 
+surveys_1995 <- filter(surveys, year==1995)    #It saves a dataframe that only has the cases in which year is 1995
 
+#Create a new dataframe that only includes the cases in which weight is lower than 5 and call it surveys 2
+surveys2 <-filter(surveys, weight<5)
+#Create a new dataframe based on surveys2, which only includes the species_id, sex and weight columns
+surveys_snl<- select(surveys2, species_id, sex, weight)
 
-
+surveys_snl<-select(filter(surveys, weight<5),species_id, sex, weight)
 
 #-------
 # Pipes
 #-------
+#Pipe symbol --> %>% 
+#Shortcut for the pipe symbol --> Ctrl + Shift + m
 
+#Selecting only cases in which weight is lower than 5, and showing only the species_id, sex and weight columns
+surveys %>% 
+  filter(weight<5) %>% 
+  select(species_id, sex, weight)
 
-
+#Save the former section by creating a new dataframe 
+surveys_snl <-surveys %>% 
+  filter(weight<5) %>% 
+  select(species_id, sex, weight)
 
 
 
@@ -63,17 +87,26 @@ download.file(url = "https://ndownloader.figshare.com/files/2292169",
 # Using pipes, subset the ```surveys``` data to include animals collected before 1995 and 
 # retain only the columns ```year```, ```sex```, and ```weight```.
 
-
-
+surveys_challenge1 <- surveys %>% 
+  filter(year<1995) %>% 
+  select(year, sex,weight)
 
 
 #--------
 # Mutate
 #--------
+#Creates a new column called weight_kg in which the original weight was transformed into kg and 
+#one other column called weight_lb that transformed the weight in Kg into pounds. 
+surveys_weights<- surveys %>% 
+  mutate(weight_kg=weight/1000,
+         weight_lb=weight_kg*2.2)
 
-
-
-
+#Filter out the cases that are NA in the weight column and then create a new column called weight_kg
+#that is weight divided by 10000. 
+surveys %>% 
+  filter(!is.na(weight)) %>% 
+  mutate(weight_kg=weight/100000) %>% 
+  head(20)
 
 
 #-----------
@@ -87,7 +120,11 @@ download.file(url = "https://ndownloader.figshare.com/files/2292169",
 
 # Hint: think about how the commands should be ordered to produce this data frame!
 
-
+surveys_challenge2<-surveys %>% 
+  filter(!is.na(hindfoot_length)) %>% 
+  mutate(hindfoot_cm=hindfoot_length/10) %>% 
+  filter(hindfoot_cm<3) %>% 
+  select(species_id, hindfoot_cm)
 
 
 
