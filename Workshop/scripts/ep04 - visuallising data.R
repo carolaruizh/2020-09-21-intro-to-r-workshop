@@ -140,14 +140,141 @@ ggplot(data=yearly_counts, mapping= aes(x=year, y=n, group=genus)) +
 ggplot(data=yearly_counts, mapping= aes(x=year, y=n, group=genus)) +
   geom_line(aes(color=genus))
 
+#Integrating the pipe operator with ggplot 
+
+yearly_counts %>% 
+  ggplot(mapping= aes(x=year, y=n, color=genus)) +
+  geom_line()
+
+yearly_counts_graph <- surveys_complete %>% 
+  count(year,genus) %>% 
+  ggplot(mapping= aes(x=year, y=n, color=genus)) +
+  geom_line()
+
+#Faceting (panel of plots)
+ggplot(data=yearly_counts, mapping = aes(x=year,y=n)) +
+  geom_line() +
+  facet_wrap(facets=vars(genus))
+
+#If we wanted to divide it also by sex 
+yearly_sex_counts <- surveys_complete %>% 
+  count(year, genus, sex)
+
+#Same faceted plots, but also adding a difference by sex
+yearly_sex_counts %>% 
+  ggplot(mapping=aes(x=year,y=n,color=sex)) +
+  geom_line() +
+  facet_wrap(facets= vars(genus))
+
+#Creating different plots for each sex
+yearly_sex_counts %>% 
+  ggplot(mapping=aes(x=year,y=n,color=sex)) +
+  geom_line() +
+  facet_grid(rows= vars(sex), cols = vars(genus))
+
+#Creating a plot with only rows 
+
+yearly_sex_counts %>% 
+  ggplot(mapping=aes(x=year,y=n,color=sex)) +
+  geom_line() +
+  facet_grid(rows= vars(genus))
+
 #Challenge 9
 # How would you modify this code so the faceting is 
 # organised into only columns instead of only rows?
 
+yearly_sex_counts %>% 
+  ggplot(mapping=aes(x=year,y=n,color=sex)) +
+  geom_line() +
+  facet_grid(cols = vars(genus))
+
+# Customizing the plot 
+
+#Using themes (Built in colour combinations)
+#getting rid of the grey background
+ggplot(data=yearly_sex_counts, mapping= aes(x=year, y=n, colour=sex)) +
+  geom_line() +
+  facet_wrap(facets= vars(genus))+
+  theme_bw()
+  
+
+
+
 
 #Challenge 10
-#
-# Hint: need to do a group_by() and summarize() to get the data before
-# plotting
+#Put together what you’ve learned to create a plot that depicts how the 
+# average weight of each species changes through the years.
 
+# Hint: need to do a group_by() and summarize() to get the data
+# before plotting
 
+#Create the dataframe that has mean weight for each species for each year
+yearly_weight <- surveys_complete %>% 
+  group_by(year, species_id) %>% 
+  summarise(mean_weight= mean(weight))
+
+#Plot them all in the same plot
+yearly_weight %>% 
+  ggplot(mapping= aes(x=year, y=mean_weight, color=species_id)) +
+  geom_line()
+
+#Facet them by species. This example maintaing the color by species, but it is not necessary because they are in different plots  
+yearly_weight %>% 
+  ggplot(mapping= aes(x=year, y=mean_weight, color=species_id)) +
+  geom_line() +
+  facet_wrap(facets = vars(species_id)) +
+  theme_bw()
+  
+#Customisation 
+yearly_sex_counts %>% 
+  ggplot(mapping= aes(x=year, y=n, color=sex)) +
+  geom_line() +
+  facet_wrap(facets = vars(genus)) +
+  labs(title="Observed genera through time",
+       x= "Year of observation",
+       y= "Number of individuals") +
+  theme_bw() +
+  theme(text=element_text(size=16), 
+        axis.text.x = element_text(colour = "grey20", 
+                                 size = 12, 
+                                 angle = 90, 
+                                 hjust = 0.5),
+axis.text.y = element_text(colour = "grey20", 
+                         size = 12), 
+strip.text = element_text(face="italic"))
+
+#You can create your own theme by storing your preferences 
+grey_plot_theme <- theme(text=element_text(size=16), 
+                         axis.text.x = element_text(colour = "grey20", 
+                                                    size = 12, 
+                                                    angle = 90, 
+                                                    hjust = 0.5),
+                         axis.text.y = element_text(colour = "grey20", 
+                                                    size = 12), 
+                         strip.text = element_text(face="italic"))
+
+#Instead of typing it each time all the theme characteristics you can use the stored theme 
+yearly_sex_counts %>% 
+  ggplot(mapping= aes(x=year, y=n, color=sex)) +
+  geom_line() +
+  facet_wrap(facets = vars(genus)) +
+  labs(title="Observed genera through time",
+       x= "Year of observation",
+       y= "Number of individuals") +
+  theme_bw() +
+  grey_plot_theme
+
+#How to export a plot 
+#You can export it from the export button, but it will give you bad quality plots. 
+#For good quality exporting fo the following: 
+
+#To save the last plot you created as image (png)
+ggsave("figures/my_plot.png")
+
+#To save the last plot and establishing the width and height
+ggsave("figures/my_plot.png", width=15, height= 10)
+
+#To save the last plot you created as pdf
+ggsave("figures/my_plot.pdf")
+
+  
